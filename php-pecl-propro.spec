@@ -1,4 +1,4 @@
-# centos/sclo spec file for php-pecl-raphf, from:
+# centos/sclo spec file for php-pecl-propro, from:
 #
 # remirepo spec file for php-pecl-propro
 # with SCL compatibility, from:
@@ -12,37 +12,27 @@
 # Please, preserve the changelog entries
 #
 %if 0%{?scl:1}
-%if "%{scl}" == "rh-php56"
-%global sub_prefix sclo-php56-
+%if "%{scl}" == "rh-php70"
+%global sub_prefix sclo-php70-
 %else
 %global sub_prefix sclo-%{scl_prefix}
 %endif
+%scl_package      php-pecl-propro
 %endif
-
-%{?scl:          %scl_package        php-pecl-raphf}
-%{!?php_inidir:  %global php_inidir  %{_sysconfdir}/php.d}
-%{!?php_incldir: %global php_incldir %{_includedir}/php}
-%{!?__pecl:      %global __pecl      %{_bindir}/pecl}
-%{!?__php:       %global __php       %{_bindir}/php}
 
 %global pecl_name propro
-%if "%{php_version}" < "5.6"
-%global ini_name  %{pecl_name}.ini
-%else
 %global ini_name  40-%{pecl_name}.ini
-%endif
 
 Summary:        Property proxy
 Name:           %{?sub_prefix}php-pecl-%{pecl_name}
-Version:        1.0.2
+Version:        2.0.1
 Release:        1%{?dist}
 License:        BSD
 Group:          Development/Languages
 URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  %{?scl_prefix}php-devel > 5.3
+BuildRequires:  %{?scl_prefix}php-devel > 7
 BuildRequires:  %{?scl_prefix}php-pear
 
 Requires:       %{?scl_prefix}php(zend-abi) = %{php_zend_api}
@@ -110,8 +100,6 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf %{buildroot}
-
 make -C NTS install INSTALL_ROOT=%{buildroot}
 
 # install config file
@@ -163,24 +151,21 @@ REPORT_EXIT_STATUS=1 \
 %{__php} -n run-tests.php
 
 
-%clean
-rm -rf %{buildroot}
-
-
 %files
-%defattr(-,root,root,-)
 %doc %{pecl_docdir}/%{pecl_name}
 %{pecl_xmldir}/%{name}.xml
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
 
 %files devel
-%defattr(-,root,root,-)
 %doc %{pecl_testdir}/%{pecl_name}
 %{php_incldir}/ext/%{pecl_name}
 
 
 %changelog
+* Thu Nov  3 2016 Remi Collet <remi@fedoraproject.org> - 2.0.1-2
+- update to 2.0.1 for PHP 7
+
 * Tue Jan 19 2016 Remi Collet <remi@fedoraproject.org> - 1.0.2-1
 - cleanup for SCLo build
 
