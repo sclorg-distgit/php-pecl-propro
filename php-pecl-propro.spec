@@ -12,10 +12,12 @@
 # Please, preserve the changelog entries
 #
 %if 0%{?scl:1}
+%global sub_prefix sclo-%{scl_prefix}
 %if "%{scl}" == "rh-php70"
 %global sub_prefix sclo-php70-
-%else
-%global sub_prefix sclo-%{scl_prefix}
+%endif
+%if "%{scl}" == "rh-php71"
+%global sub_prefix sclo-php71-
 %endif
 %scl_package      php-pecl-propro
 %endif
@@ -26,7 +28,7 @@
 Summary:        Property proxy
 Name:           %{?sub_prefix}php-pecl-%{pecl_name}
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        BSD
 Group:          Development/Languages
 URL:            http://pecl.php.net/package/%{pecl_name}
@@ -163,7 +165,10 @@ REPORT_EXIT_STATUS=1 \
 
 
 %changelog
-* Thu Nov  3 2016 Remi Collet <remi@fedoraproject.org> - 2.0.1-2
+* Wed Aug  9 2017 Remi Collet <remi@fedoraproject.org> - 2.0.1-2
+- minor change for sclo-php71
+
+* Thu Nov  3 2016 Remi Collet <remi@fedoraproject.org> - 2.0.1-1
 - update to 2.0.1 for PHP 7
 
 * Tue Jan 19 2016 Remi Collet <remi@fedoraproject.org> - 1.0.2-1
